@@ -72,19 +72,19 @@
 	// eg. /Applications/AppName.app/
 	NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
 	
-	// Auto generate the name of the helper app
-	// eg. AppName Helper.app
-	NSString* helperAppName =
+	// Auto generate the name of the launcher app
+	// eg. AppNameLauncher.app
+	NSString* launcherAppName =
 	[[bundlePath lastPathComponent] stringByReplacingOccurrencesOfString:@".app"
-															  withString:@" Helper.app"];
+															  withString:@"Launcher.app"];
 	
-	// eg. /Applications/AppName.app/Contents/Library/LoginItems/AppName Helper.app
-	NSString* helperBundlePath =
+	// eg. /Applications/AppName.app/Contents/Library/LoginItems/AppNameLauncher.app
+	NSString* launcherBundlePath =
 	[bundlePath stringByAppendingPathComponent:
-	 [NSString stringWithFormat:@"Contents/Library/LoginItems/%@", helperAppName]];
+	 [NSString stringWithFormat:@"Contents/Library/LoginItems/%@", launcherAppName]];
 	
-	NSBundle* helperBundle = [NSBundle bundleWithPath:helperBundlePath];
-	return [self initWithBundle:helperBundle];
+	NSBundle* launcherBundle = [NSBundle bundleWithPath:launcherBundlePath];
+	return [self initWithBundle:launcherBundle];
 }
 
 - (void)setBundle:(NSBundle*)bndl {
