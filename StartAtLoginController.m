@@ -68,6 +68,25 @@
     return self;
 }
 
+-(id)init {
+	// eg. /Applications/AppName.app/
+	NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
+	
+	// Auto generate the name of the helper app
+	// eg. AppName Helper.app
+	NSString* helperAppName =
+	[[bundlePath lastPathComponent] stringByReplacingOccurrencesOfString:@".app"
+															  withString:@" Helper.app"];
+	
+	// eg. /Applications/AppName.app/Contents/Library/LoginItems/AppName Helper.app
+	NSString* helperBundlePath =
+	[bundlePath stringByAppendingPathComponent:
+	 [NSString stringWithFormat:@"Contents/Library/LoginItems/%@", helperAppName]];
+	
+	NSBundle* helperBundle = [NSBundle bundleWithPath:helperBundlePath];
+	return [self initWithBundle:helperBundle];
+}
+
 - (void)setBundle:(NSBundle*)bndl {
     self.identifier = [bndl bundleIdentifier];
     self.url        = [bndl bundleURL];
