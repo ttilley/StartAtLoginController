@@ -68,6 +68,25 @@
     return self;
 }
 
+-(id)init {
+	// eg. /Applications/AppName.app/
+	NSString* bundlePath = [[NSBundle mainBundle] bundlePath];
+	
+	// Auto generate the name of the launcher app
+	// eg. AppNameLauncher.app
+	NSString* launcherAppName =
+	[[bundlePath lastPathComponent] stringByReplacingOccurrencesOfString:@".app"
+															  withString:@"Launcher.app"];
+	
+	// eg. /Applications/AppName.app/Contents/Library/LoginItems/AppNameLauncher.app
+	NSString* launcherBundlePath =
+	[bundlePath stringByAppendingPathComponent:
+	 [NSString stringWithFormat:@"Contents/Library/LoginItems/%@", launcherAppName]];
+	
+	NSBundle* launcherBundle = [NSBundle bundleWithPath:launcherBundlePath];
+	return [self initWithBundle:launcherBundle];
+}
+
 - (void)setBundle:(NSBundle*)bndl {
     self.identifier = [bndl bundleIdentifier];
     self.url        = [bndl bundleURL];
